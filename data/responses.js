@@ -132,7 +132,7 @@ function generateCard(quote) {
   
   // Function to render the grid with 6 unique cards
   function renderCards() {
-    const cardsHTML = Array.from({ length: 6 }, () => {
+    const cardsHTML = Array.from({ length: 6 }, () => {        // idea turn the length munber to variable and let user chose card ammount
       const randomQuote = getRandomQuote();
       return generateCard(randomQuote);
     }).join('');
