@@ -1,8 +1,8 @@
 const userSubmits = [{
     
-        id: ,
-        author: ,
-        qoute:  ,
+        id: na,
+        author: na,
+        qoute:  na,
         mood: na,
     },
 
