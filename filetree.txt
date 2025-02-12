@@ -1,0 +1,13 @@
+My current file tree
+
+
+Quote-generator/
+├─ css/
+│  ├─ main.css/
+├─ data/
+│  ├─ responses.js
+├─ javascript/
+│  ├─ main.js
+├─ index.html
+├─ .gitattributes
+├─ README.md
