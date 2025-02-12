@@ -1,4 +1,4 @@
-const responses = [ {
+export const responses = [ {
     id: 1,
     author: "Oscar Wilde",
     quote:  "Be yourself; everyone else is already taken.",
@@ -118,50 +118,3 @@ const responses = [ {
 
 
 
-// Function to generate HTML for a single card
-function generateCard(quote) {
-    return `
-      <div class="card">
-        <img src="https://plus.unsplash.com/premium_photo-1675701826925-710e336bbba5?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
-        <p class="quote">${quote.quote}</p>
-        <p class="author">— ${quote.author}</p>
-        <button class="generate-new-quote cool-button"> Get a New quote</button>
-      </div>
-    `;
-  }
-  
-  // Function to render the grid with 6 unique cards
-  function renderCards() {
-    const cardsHTML = Array.from({ length: 6 }, () => {        // idea turn the length munber to variable and let user chose card ammount
-      const randomQuote = getRandomQuote();
-      return generateCard(randomQuote);
-    }).join('');
-  
-    document.querySelector('.js-quote-container').innerHTML = `
-      <div class="grid">${cardsHTML}</div>
-    `;
-  }
-  
-  // Function to get a random quote
-  const getRandomQuote = () => {
-    const randomIndex = Math.floor(Math.random() * responses.length);
-    return responses[randomIndex];
-  }
-  
-  // Event delegation for button clicks
-  document.body.addEventListener('click', (event) => {
-    if (event.target.classList.contains('generate-new-quote')) {
-      const card = event.target.closest('.card');
-      const quoteElement = card.querySelector('.quote');
-      const authorElement = card.querySelector('.author');
-  
-      const newQuote = getRandomQuote();
-      quoteElement.textContent = newQuote.quote;
-      authorElement.textContent = `— ${newQuote.author}`;
-    }
-  });
-  
-  // Run once when the window loads
-  window.onload = () => {
-    renderCards();
-  };
