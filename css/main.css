@@ -1,5 +1,7 @@
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 html {
@@ -7,14 +9,27 @@ html {
 }
 
 body {
-    display: grid;
-    place-items: center;
-    background: #212121;
-    margin: 0;
-    min-height: 100vh;
+  background: #212121;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-
+header {
+  padding: 20px; /* Add padding */
+  text-align: center; /* Center the text */
+  background: linear-gradient(to bottom, #3d7369, #2a504a); /* Darker gradient */
+  width: 100%; /* Make the header span the full width */
+  height: 75px; /* Fixed height */
+  color: #F3EFE0; /* Light gray text for better contrast */
+  font-size: 1.5rem; /* Increase font size */
+  font-weight: bold; /* Make the text bold */
+  grid-row: 1; /* Place the header in the first row of the grid */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Soft border */
+}
 .grid {
+    grid-row: 2;
     display: grid;
     grid-template-columns: repeat(3, 260px);
     gap: 32px 16px;
@@ -86,18 +101,22 @@ body {
 }
 
 .card .quote {
-    color: white;
+    color: #F3EFE0;
     font-size: 1rem;
     text-align: center;
     text-wrap: balance;
     margin: 0;
+}
+
+.author {
+  color: #F3EFE0;
 }
 /* cant take credit for this part i totally ganked it from someone else case it looked cool */
 .cool-button { 
     border: none;
     padding: 1em;
     outline: none;
-    color: white;
+    color: #F3EFE0;
     text-transform: uppercase;
     font-weight: 900;
     font-style: 1.2em;
@@ -118,7 +137,7 @@ body {
         content: '';
         z-index: -2;
         background-size: 400% 400%;
-        background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+        background: linear-gradient(60deg, #ff5770, #e4428d, #c42da8, #9e16c3, #6501de, #9e16c3, #c42da8, #ff5770);
     }
     &:before {
         filter: blur(7px);
