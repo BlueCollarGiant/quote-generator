@@ -1,0 +1,17 @@
+export const imagesData = [
+   "css/images/1.png", 
+   "css/images/2.png",
+   "css/images/3.png",
+   "css/images/4.png",
+   "css/images/5.png",
+   "css/images/6.png",
+   "css/images/7.png",
+   "css/images/8.png",
+   "css/images/9.png",
+   "css/images/10.png",
+   "css/images/11.png",
+   "css/images/12.png",
+   "css/images/13.png",
+   "css/images/14.png",
+   "css/images/15.png",
+]

@@ -1,5 +1,5 @@
 import { renderCards } from "./render.js";
-import { getRandomQuote } from "./cardUtils.js";
+import { getRandomImage, getRandomQuote } from "./cardUtils.js";
 
 
 document.body.addEventListener('click', (event) => {
@@ -7,10 +7,14 @@ document.body.addEventListener('click', (event) => {
       const card = event.target.closest('.card');
       const quoteElement = card.querySelector('.quote');
       const authorElement = card.querySelector('.author');
-  
+      const imageElement = card.querySelector("img");
+      
       const newQuote = getRandomQuote();
+      const newImage = getRandomImage();
+      
       quoteElement.textContent = newQuote.quote;
       authorElement.textContent = `— ${newQuote.author}`;
+      imageElement.src = newImage;
     }
   });
   
