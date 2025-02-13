@@ -4,7 +4,7 @@ import {imagesData} from "../data/imagesData.js";
 export function generateCard(quote, image) {
     return `
       <div class="card">
-        <img src="${image}" />
+        <img src="${image}" data-image-path="${image}" />
         <p class="quote">${quote.quote}</p>
         <p class="author">— ${quote.author}</p>
         <button class="generate-new-quote cool-button"> Get a New quote</button>
@@ -18,7 +18,14 @@ export const getRandomQuote = () => {
     return responses[randomIndex];
 }
 
-export const getRandomImage = () => {
+export const getRandomImage = (currentlyDisplayedImages = []) => {
+  const availableImages = imagesData.filter(
+    (image) => !currentlyDisplayedImages.includes(image)
+  );
+  if (availableImages.length === 0) {
+    console.warn("No more unique images available. Reusing images.");
+    return imagesData[Math.floor(Math.random() * images.length)];
+  }
   const randomImageIndex = Math.floor(Math.random() * imagesData.length);
   return imagesData[randomImageIndex];
 }
