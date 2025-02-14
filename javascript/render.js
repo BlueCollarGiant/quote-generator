@@ -3,7 +3,7 @@ import { generateCard,getRandomImage,getRandomQuote } from "./cardUtils.js";
 export function renderCards() {
   console.log("renderCards called")
     const currentlyDisplayedImages = [];
-    const cardsHTML = Array.from({ length: 6 }, () => {        // idea turn the length munber to variable and let user chose card ammount
+    const cardsHTML = Array.from({ length: 3 }, () => {        // idea turn the length munber to variable and let user chose card ammount
       const randomQuote = getRandomQuote();
       const randomImage = getRandomImage(currentlyDisplayedImages);
       
