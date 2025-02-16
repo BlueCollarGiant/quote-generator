@@ -14,4 +14,4 @@ export const imagesData = [
    { is: 13, path: "css/images/13.png"},
    { is: 14, path: "css/images/14.png"},
    { is: 15, path: "css/images/15.png"},
-]
+];
