@@ -1,31 +1,45 @@
 import { responses } from "../data/responses.js";
-import {imagesData} from "../data/imagesData.js";
+import { imagesData } from "../data/imagesData.js";
+import { usedImages, usedQuotes } from './state.js'; // Fixed: Single import for both
 
 export function generateCard(quote, image) {
     return `
-      <div class="card">
+      <div class="card" data-quote-id="${quote.id}"> <!-- Added data-quote-id -->
         <img src="${image}" data-image-path="${image}" />
         <p class="quote">${quote.quote}</p>
         <p class="author">— ${quote.author}</p>
-        <button class="generate-new-quote cool-button"> Get a New quote</button>
+        <button class="generate-new-quote cool-button">Get a New Quote</button>
       </div>
     `;
-  }
+}
 
+export const getRandomImage = () => {
+    const availableImages = imagesData.filter(
+        (image) => !usedImages.includes(image.path)
+    );
+    if (availableImages.length === 0) {
+        console.warn("No more unique images available. Reusing images.");
+        usedImages.length = 0; // Reset used images
+        return imagesData[Math.floor(Math.random() * imagesData.length)].path;
+    }
+
+    const randomImage = availableImages[Math.floor(Math.random() * availableImages.length)];
+    usedImages.push(randomImage.path);
+    return randomImage.path;
+};
 
 export const getRandomQuote = () => {
-    const randomIndex = Math.floor(Math.random() * responses.length);
-    return responses[randomIndex];
-}
+    const availableQuotes = responses.filter(
+        (quote) => !usedQuotes.includes(quote.id)
+    );
 
-export const getRandomImage = (currentlyDisplayedImages = []) => {
-  const availableImages = imagesData.filter(
-    (image) => !currentlyDisplayedImages.includes(image)
-  );
-  if (availableImages.length === 0) {
-    console.warn("No more unique images available. Reusing images.");
-    return imagesData[Math.floor(Math.random() * images.length)];
-  }
-  const randomImageIndex = Math.floor(Math.random() * imagesData.length);
-  return imagesData[randomImageIndex];
-}
+    if (availableQuotes.length === 0) {
+        console.warn("No more unique quotes available. Reusing quotes.");
+        usedQuotes.length = 0; // Reset used quotes
+        return responses[Math.floor(Math.random() * responses.length)];
+    }
+
+    const randomQuote = availableQuotes[Math.floor(Math.random() * availableQuotes.length)];
+    usedQuotes.push(randomQuote.id);
+    return randomQuote;
+};

@@ -1,20 +1,20 @@
-import { generateCard,getRandomImage,getRandomQuote } from "./cardUtils.js";
+import { getRandomImage, getRandomQuote } from "./cardUtils.js";
 
-export function renderCards() {
-  console.log("renderCards called")
-    const currentlyDisplayedImages = [];
-    const cardsHTML = Array.from({ length: 3 }, () => {        // idea turn the length munber to variable and let user chose card ammount
-      const randomQuote = getRandomQuote();
-      const randomImage = getRandomImage(currentlyDisplayedImages);
-      
-      currentlyDisplayedImages.push(randomImage)
-
-      return generateCard(randomQuote, randomImage);
-    }).join('');
-
-    
-  
-    document.querySelector('.js-quote-container').innerHTML = `
-      <div class="grid">${cardsHTML}</div>
+export function renderCards(numCards) {
+  const cardsHTML = Array.from({ length: numCards }, () => {
+    const randomQuote = getRandomQuote();
+    const randomImage = getRandomImage();
+    return `
+      <div class="card" data-quote-id="${randomQuote.id}">
+        <img src="${randomImage}" data-image-path="${randomImage}" />
+        <p class="quote">${randomQuote.quote}</p>
+        <p class="author">— ${randomQuote.author}</p>
+        <button class="generate-new-quote cool-button">Get a New Quote</button>
+      </div>
     `;
-  }
+  }).join('');
+
+  document.querySelector('.js-quote-container').innerHTML = `
+    <div class="grid">${cardsHTML}</div>
+  `;
+}

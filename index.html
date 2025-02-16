@@ -5,20 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>quote generator</title>
     <link rel="stylesheet" href="css/main.css">
-    <!--<script src="javascript/main.js" defer></script>-->
-    <script type="module" src="javascript/main.js" defer></script>
+    <script type="module" src="javascript/welcome.js" defer></script>
 </head>
 <body>
     <header>
-        
-
-
-
-
-        <div class="header-container">testing</div>
+        <div class="header-container">Quote Generator</div>
     </header>
     <main class="main-container">
-        <div class="js-quote-container"></div>
+        <div class="welcome-container">
+            <div class="card-selector">
+                <h2>Welcome to Quote Generator</h2>
+                <div class="input-group">
+                    <label for="cardCount">Number of cards (1-6):</label>
+                    <input type="number" id="cardCount" min="1" max="6" value="3">
+                </div>
+                <button class="cool-button start-button">Generate Cards</button>
+            </div>
+        </div>
+        <div class="js-quote-container hidden"></div>
     </main>
     <footer>
     </footer>
