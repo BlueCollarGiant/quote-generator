@@ -1,17 +1,6 @@
 import { responses } from "../data/responses.js";
 import { imagesData } from "../data/imagesData.js";
-import { usedImages, usedQuotes } from './state.js'; // Fixed: Single import for both
-
-export function generateCard(quote, image) {
-    return `
-      <div class="card" data-quote-id="${quote.id}"> <!-- Added data-quote-id -->
-        <img src="${image}" data-image-path="${image}" />
-        <p class="quote">${quote.quote}</p>
-        <p class="author">— ${quote.author}</p>
-        <button class="generate-new-quote cool-button">Get a New Quote</button>
-      </div>
-    `;
-}
+import { usedImages, usedQuotes } from './state.js'; 
 
 export const getRandomImage = () => {
     const availableImages = imagesData.filter(
