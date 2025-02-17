@@ -6,7 +6,7 @@ export function renderCards(numCards) {
     const randomImage = getRandomImage();
     return `
       <div class="card" data-quote-id="${randomQuote.id}">
-        <img src="${randomImage.path}" data-image-path="${randomImage.id}" /> //added .path and .id for tracking
+        <img src="${randomImage.path}" data-image-path="${randomImage.id}" /> 
         <p class="quote">${randomQuote.quote}</p>
         <p class="author">— ${randomQuote.author}</p>
         <button class="generate-new-quote cool-button">Get a New Quote</button>
