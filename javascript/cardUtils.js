@@ -4,7 +4,7 @@ import { usedImages, usedQuotes } from './state.js';
 
 export const getRandomImage = () => {
     const availableImages = imagesData.filter(
-        (image) => !usedImages.includes(image.path)
+        (image) => !usedImages.includes(image.id)// changing from image.path it image.id
     );
     if (availableImages.length === 0) {
         console.warn("No more unique images available. Reusing images.");
@@ -13,8 +13,8 @@ export const getRandomImage = () => {
     }
 
     const randomImage = availableImages[Math.floor(Math.random() * availableImages.length)];
-    usedImages.push(randomImage.path);
-    return randomImage.path;
+    usedImages.push(randomImage.id); // changing .path to .id
+    return randomImage;// changing by taking away.path
 };
 
 export const getRandomQuote = () => {

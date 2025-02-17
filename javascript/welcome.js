@@ -43,12 +43,12 @@ function attachRegenerationLogic() {
       const card = event.target.closest('.card');
       const quoteElement = card.querySelector('.quote');
       const authorElement = card.querySelector('.author');
-      const imageElement = card.querySelector('img');
+      const imageElement = card.querySelector('img'); //swapping this from "img" to ".id" to test things
 
       // Remove old quote/image from used lists
-      const currentImage = imageElement.dataset.imagePath;
+      const currentImageId = parseInt(imageElement.dataset.imageId);// change imageElement.dataset.imagePath to parseInt(imageElement.dataset.imageId
       const currentQuoteId = parseInt(card.dataset.quoteId);
-      usedImages.splice(usedImages.indexOf(currentImage), 1);
+      usedImages.splice(usedImages.indexOf(currentImageId), 1);
       usedQuotes.splice(usedQuotes.indexOf(currentQuoteId), 1);
 
       // Generate new unique quote/image
@@ -58,13 +58,14 @@ function attachRegenerationLogic() {
       // Update card
       quoteElement.textContent = newQuote.quote;
       authorElement.textContent = `— ${newQuote.author}`;
-      imageElement.src = newImage;
-      imageElement.dataset.imagePath = newImage;
+      imageElement.src = newImage.path; // added.path
+      imageElement.dataset.imageId = newImage.id;// changed .imagePath = newImage; to imageId = newImage.id
       card.dataset.quoteId = newQuote.id;
 
       // Track new quote/image
-      usedImages.push(newImage);
+      usedImages.push(newImage.id);// added id
       usedQuotes.push(newQuote.id);
     }
   });
 }
+
