@@ -1,34 +1,27 @@
 import { responses } from "../data/responses.js";
 import { imagesData } from "../data/imagesData.js";
-import { usedImages, usedQuotes } from './state.js'; 
+import { activeImages, inactiveImages, activeQuotes, inactiveQuotes  } from './state.js'; 
 
-export const getRandomImage = () => {
-    const availableImages = imagesData.filter(
-        (image) => !usedImages.includes(image.id)// changing from image.path it image.id
-    );
-    if (availableImages.length === 0) {
-        console.warn("No more unique images available. Reusing images.");
-        usedImages.length = 0; // Reset used images
-        return imagesData[Math.floor(Math.random() * imagesData.length)].path;
+
+function getRandomItem(dataArray, inactivePool, activePool) {
+    if (inactivePool.length === 0) {
+      throw new Error("No inactive items available. This should never happen!");
     }
-
-    const randomImage = availableImages[Math.floor(Math.random() * availableImages.length)];
-    usedImages.push(randomImage.id); // changing .path to .id
-    return randomImage;// changing by taking away.path
-};
-
-export const getRandomQuote = () => {
-    const availableQuotes = responses.filter(
-        (quote) => !usedQuotes.includes(quote.id)
-    );
-
-    if (availableQuotes.length === 0) {
-        console.warn("No more unique quotes available. Reusing quotes.");
-        usedQuotes.length = 0; // Reset used quotes
-        return responses[Math.floor(Math.random() * responses.length)];
-    }
-
-    const randomQuote = availableQuotes[Math.floor(Math.random() * availableQuotes.length)];
-    usedQuotes.push(randomQuote.id);
-    return randomQuote;
-};
+  
+    const randomIndex = Math.floor(Math.random() * inactivePool.length);
+    const selectedId = inactivePool.splice(randomIndex, 1)[0]; // Remove from inactive
+    activePool.push(selectedId); // Add to active
+  
+    // Return the full object (image or quote)
+    return dataArray.find(item => item.id === selectedId);
+  }
+  
+  // Get a random image
+  export const getRandomImage = () => {
+    return getRandomItem(imagesData, inactiveImages, activeImages);
+  };
+  
+  // Get a random quote
+  export const getRandomQuote = () => {
+    return getRandomItem(responses, inactiveQuotes, activeQuotes);
+  };

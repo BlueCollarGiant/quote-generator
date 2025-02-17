@@ -1,7 +1,7 @@
 import { renderCards } from './render.js';
 import { imagesData } from '../data/imagesData.js';
 import { responses } from '../data/responses.js';
-import { resetState, usedImages, usedQuotes } from './state.js'; 
+import { resetState, activeImages, inactiveImages , activeQuotes ,inactiveQuotes } from './state.js'; 
 import { getRandomImage, getRandomQuote } from './cardUtils.js'; 
 // Initialize on "Generate Cards" button click
 document.querySelector('.start-button').addEventListener('click', () => {
@@ -36,36 +36,41 @@ document.querySelector('.start-button').addEventListener('click', () => {
   attachRegenerationLogic();
 });
 
-// Function to handle quote regeneration
 function attachRegenerationLogic() {
   document.querySelector('.js-quote-container').addEventListener('click', (event) => {
     if (event.target.classList.contains('generate-new-quote')) {
       const card = event.target.closest('.card');
       const quoteElement = card.querySelector('.quote');
       const authorElement = card.querySelector('.author');
-      const imageElement = card.querySelector('img'); //swapping this from "img" to ".id" to test things
+      const imageElement = card.querySelector('img');
 
-      // Remove old quote/image from used lists
-      const currentImageId = parseInt(imageElement.dataset.imageId);// change imageElement.dataset.imagePath to parseInt(imageElement.dataset.imageId
-      const currentQuoteId = parseInt(card.dataset.quoteId);
-      usedImages.splice(usedImages.indexOf(currentImageId), 1);
-      usedQuotes.splice(usedQuotes.indexOf(currentQuoteId), 1);
+      // Get old IDs
+      const oldImageId = parseInt(imageElement.dataset.imageId);
+      const oldQuoteId = parseInt(card.dataset.quoteId);
 
-      // Generate new unique quote/image
+      // Move old IDs back to inactive pools
+      const imageIndex = activeImages.indexOf(oldImageId);
+      if (imageIndex > -1) {
+        activeImages.splice(imageIndex, 1);
+        inactiveImages.push(oldImageId); // Recycle image
+      }
+
+      const quoteIndex = activeQuotes.indexOf(oldQuoteId);
+      if (quoteIndex > -1) {
+        activeQuotes.splice(quoteIndex, 1);
+        inactiveQuotes.push(oldQuoteId); // Recycle quote
+      }
+
+      // Get new image/quote from inactive pools
       const newImage = getRandomImage();
       const newQuote = getRandomQuote();
 
-      // Update card
+      // Update the card
       quoteElement.textContent = newQuote.quote;
       authorElement.textContent = `— ${newQuote.author}`;
-      imageElement.src = newImage.path; // added.path
-      imageElement.dataset.imageId = newImage.id;// changed .imagePath = newImage; to imageId = newImage.id
+      imageElement.src = newImage.path;
+      imageElement.dataset.imageId = newImage.id;
       card.dataset.quoteId = newQuote.id;
-
-      // Track new quote/image
-      usedImages.push(newImage.id);// added id
-      usedQuotes.push(newQuote.id);
     }
   });
 }
-
