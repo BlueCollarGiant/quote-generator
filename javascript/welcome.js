@@ -14,12 +14,23 @@ document.querySelector('.start-button').addEventListener('click', () => {
     return;
   }
 
-  // Toggle visibility
+  // make welcome input go away
   document.querySelector('.welcome-container').classList.add('hidden');
   document.querySelector('.js-quote-container').classList.remove('hidden');
-
+  document.querySelector('.back-button').classList.remove('hidden');// didnt think this would work but hid return button
   // Render cards
   renderCards(numCards);
+  //return to the welcome screen
+  function resetToWelcome() {
+    document.querySelector('.js-quote-container').classList.add('hidden');
+    document.querySelector('.welcome-container').classList.remove('hidden');
+    document.querySelector('.back-button').classList.add('hidden')
+    resetState();
+  }
+  
+  // reset "Back to Start" button
+  document.querySelector('.back-button').addEventListener('click', resetToWelcome);
+
 
   // Attach regeneration logic to the "Generate New Quote" buttons
   attachRegenerationLogic();
