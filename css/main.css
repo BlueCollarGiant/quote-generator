@@ -120,6 +120,7 @@ header {
   cursor: pointer;
   background: none;
   text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.45);
+  margin-top: auto;
 }
 
 .cool-button::before,
