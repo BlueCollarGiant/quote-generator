@@ -1,4 +1,4 @@
-import { responses } from "../data/responses.js";
+/*import { responses } from "../data/responses.js";
 import { imagesData } from "../data/imagesData.js";
 import { activeImages, inactiveImages, activeQuotes, inactiveQuotes  } from './state.js'; 
 
@@ -25,3 +25,4 @@ function getRandomItem(dataArray, inactivePool, activePool) {
   export const getRandomQuote = () => {
     return getRandomItem(responses, inactiveQuotes, activeQuotes);
   };
+*/

@@ -1,4 +1,4 @@
-import { getRandomImage, getRandomQuote } from "./cardUtils.js";
+/*import { getRandomImage, getRandomQuote } from "./cardUtils.js";
 
 export function renderCards(numCards) {
   const cardsHTML = Array.from({ length: numCards }, () => {
@@ -17,4 +17,4 @@ export function renderCards(numCards) {
   document.querySelector('.js-quote-container').innerHTML = `
     <div class="grid">${cardsHTML}</div>
   `;
-}
+} */

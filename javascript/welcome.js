@@ -1,4 +1,4 @@
-import { renderCards } from './render.js';
+/*import { renderCards } from './render.js';
 import { imagesData } from '../data/imagesData.js';
 import { responses } from '../data/responses.js';
 import { resetState, activeImages, inactiveImages , activeQuotes ,inactiveQuotes } from './state.js'; 
@@ -74,3 +74,4 @@ function attachRegenerationLogic() {
     }
   });
 }
+*/

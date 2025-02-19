@@ -1,4 +1,4 @@
-import { imagesData } from "../data/imagesData.js";
+/*import { imagesData } from "../data/imagesData.js";
 import { responses } from '../data/responses.js';
 
 
@@ -17,4 +17,4 @@ export function resetState() {
   inactiveImages = imagesData.map(img => img.id);
   activeQuotes = [];
   inactiveQuotes = responses.map(quote => quote.id);
-}
+} */
