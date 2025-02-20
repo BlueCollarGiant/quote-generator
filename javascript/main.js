@@ -1,4 +1,3 @@
-// this file is reorganization ignore what goes on here.
 import { imagesData } from "../data/imagesData.js";
 import { responses } from "../data/responses.js";
 
