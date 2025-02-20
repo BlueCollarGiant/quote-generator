@@ -91,14 +91,14 @@ export const responses = [ {
 
 
 
-// setting up data templete
+// setting up data template
 /*{
     id: ,
     author: ,
     quote:  ,
     mood: na,
 },*/
-// this is my teplate for new quotes
+// this is my template for new quotes
 
 
 
