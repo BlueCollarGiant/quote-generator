@@ -1,4 +1,19 @@
-export const imagesData = [
+class Image {
+   constructor(id, path) {
+      this.id = id;
+      this.path = path;
+   }
+
+   // for future development and if i need to format quotes
+   display() {
+      return `${this.id} - ${this.path}`;
+   }
+}
+
+
+
+
+const rawImage = [
    { id: 1, path: "css/images/1.png"}, 
    { id: 2, path: "css/images/2.png"},
    { id: 3, path: "css/images/3.png"},
@@ -15,3 +30,5 @@ export const imagesData = [
    { id: 14, path: "css/images/14.png"},
    { id: 15, path: "css/images/15.png"},
 ];
+
+export const imagesData = rawImage.map(image => new Image(image.id, image.path));
