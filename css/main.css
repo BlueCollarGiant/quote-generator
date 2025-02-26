@@ -52,7 +52,7 @@
     align-items: center;
     color: var(--text);
     line-height: 1.5;
-    font-family: Arial, sans-serif;
+    font-family: "Dancing Script", sans-serif;
   }
   
   /*Header Component*/
@@ -76,6 +76,7 @@
   .header__button-group {
     display: flex;
     gap: var(--space-sm);
+    
   }
   
   [data-action] {
@@ -107,14 +108,35 @@
   
   .welcome__card {
     background: var(--card-bg);
-    padding: var(--space-lg);
-    border-radius: 8px;
-    box-shadow: var(--shadow);
     border: 1px solid var(--border);
-    max-width: 500px;
-    width: 100%;
+    border-radius: 8px;
+    padding: var(--space-md);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    height: 100%;
     text-align: center;
-  }
+}
+
+.welcome__card::after {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    transform: scale(0.9);
+    filter: blur(15px); /* Increased blur for a brighter effect */
+    background: var(--main-gradient);
+    background-size: 200% 200%;
+    animation: animateGlow 1.25s linear infinite;
+}
+
+
+
   
   .welcome__card h2 {
     margin-bottom: var(--space-md);
@@ -308,6 +330,8 @@
     color: inherit;
     cursor: pointer;
     transition: all 0.2s ease;
+    font-family: "Montez", cursive;
+    
   }
   
   .button--gradient {
