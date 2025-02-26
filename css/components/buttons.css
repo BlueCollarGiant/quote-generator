@@ -1,0 +1,63 @@
+.button {
+    border: none;
+    padding: var(--space-sm) var(--space-md);
+    color: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: "Montez", cursive;
+}
+
+.button--gradient {
+    position: relative;
+    z-index: 1;
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    background: none;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.45);
+}
+
+.button--gradient::before,
+.button--gradient::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10em;
+    width: 105%;
+    height: 105%;
+    z-index: -2;
+    background: var(--main-gradient);
+}
+
+.button--gradient::before {
+    filter: blur(7px);
+    animation: animateGlow 10s infinite linear;
+}
+
+.button--gradient:hover::before {
+    width: 115%;
+    height: 115%;
+}
+
+.button--danger {
+    background: var(--danger);
+    color: white;
+}
+
+[data-component="quote-form"] .button--gradient {
+    margin-left: 20px;
+    display: block;
+    width: fit-content;
+}
+
+@keyframes animateGlow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 200% 50%;
+    }
+}

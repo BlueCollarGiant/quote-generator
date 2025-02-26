@@ -1,0 +1,63 @@
+[data-component="welcome"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - var(--header-height));
+    padding: var(--space-lg);
+}
+
+.welcome__card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: var(--space-md);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    height: 100%;
+    text-align: center;
+}
+
+.welcome__card::after {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    transform: scale(0.9);
+    filter: blur(15px);
+    background: var(--main-gradient);
+    background-size: 200% 200%;
+    animation: animateGlow 1.25s linear infinite;
+}
+
+.welcome__card h2 {
+    margin-bottom: var(--space-md);
+    font-size: 1.8rem;
+}
+
+.welcome__input-group {
+    margin: var(--space-md) 0;
+}
+
+.welcome__input-group label {
+    display: block;
+    margin-bottom: var(--space-sm);
+    font-size: 1.1rem;
+}
+
+#cardCount {
+    background: #444;
+    border: 1px solid var(--border);
+    color: inherit;
+    padding: var(--space-sm);
+    border-radius: 4px;
+    font-size: 1.2rem;
+    width: 100px;
+    text-align: center;
+    margin: 0 auto;
+}
