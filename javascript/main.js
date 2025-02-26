@@ -10,7 +10,10 @@ let state = {
   inactiveImages: [],
   activeQuotes: [],
   inactiveQuotes: [],
+  pendingQuotes: JSON.parse(localStorage.getItem('pendingQuotes')) || [], // load from local storage
+  previousView: 'welcome' // Track previous view for navigation
 };
+
 
 function resetState() {
   state.activeImages = [];
@@ -64,12 +67,25 @@ function renderCards(numCards) {
   console.log("Cards Rendered - Inactive Images:", state.inactiveImages);
 }
 
-function toggleUIElements(showWelcome) {
+
+function toggleUIElements(showWelcome, showQuoteSubmit = false) {
+  const showCards = !showWelcome && !showQuoteSubmit;
+  
   document.querySelector('.welcome-container').classList.toggle('hidden', !showWelcome);
-  document.querySelector('.js-quote-container').classList.toggle('hidden', showWelcome);
+  document.querySelector('.js-quote-container').classList.toggle('hidden', !showCards);
+  document.querySelector('.quote-submit-container').classList.toggle('hidden', !showQuoteSubmit);
   document.querySelector('.back-button').classList.toggle('hidden', showWelcome);
 }
-
+function renderPendingQuotes() {
+  const container = document.querySelector('.pending-quotes-list');
+  container.innerHTML = state.pendingQuotes.map(quote => `
+    <div class="pending-quote" data-id="${quote.id}">
+      <p class="quote">"${quote.quote}"</p>
+      <p class="author">— ${quote.author}</p>
+      <button class="cool-button delete-button">Delete</button>
+    </div>
+  `).join('');
+}
 // this section handles my Events
 function handleRegeneration(event) {
   if (event.target.classList.contains('generate-new-quote')) {
@@ -121,25 +137,80 @@ function handleGenerateCards() {
     alert(`Please choose between 1 and ${maxAllowed} cards.`);
     return;
   }
-
+  state.previousView = 'cards';
   toggleUIElements(false); //  hides the welcome page
   renderCards(numCards);
 }
 
 function handleBackToStart() {
+  state.previousView = 'welcome';
   toggleUIElements(true); // hides the cards page
   resetState();
+}
+
+function handleExitSubmit() {
+  if (state.previousView === 'welcome') {
+    toggleUIElements(true);
+  } else {
+    toggleUIElements(false);
+  }
 }
 
 // get the app ready
 function initializeApp() {
   resetState();
+  renderPendingQuotes();
 
   // my event listeners
   document.querySelector('.start-button').addEventListener('click', handleGenerateCards);
   document.querySelector('.back-button').addEventListener('click', handleBackToStart);
   document.querySelector('.js-quote-container').addEventListener('click', handleRegeneration);
+  document.querySelector('.quote-submit').addEventListener('click', () => {
+    state.previousView = document.querySelector('.welcome-container').classList.contains('hidden') ? 'cards' : 'welcome';
+    toggleUIElements(false, true);
+    renderPendingQuotes();
+    exitSubmitButton.classList.remove('hidden'); // Show the exit button when submit page is shown
+  });
+
+  document.querySelector('.submit-button').addEventListener('click', () => {
+    const quoteText = document.getElementById('quoteText').value.trim();
+    const quoteAuthor = document.getElementById('quoteAuthor').value.trim();
+
+    if (quoteText && quoteAuthor) {
+      state.pendingQuotes.push({
+        id: Date.now(),
+        quote: quoteText,
+        author: quoteAuthor
+      });
+      localStorage.setItem('pendingQuotes', JSON.stringify(state.pendingQuotes));
+      renderPendingQuotes();
+      document.getElementById('quoteText').value = '';
+      document.getElementById('quoteAuthor').value = '';
+    }
+  });
+
+  document.querySelector('.pending-quotes-list').addEventListener('click', (e) => {
+    if (e.target.classList.contains('delete-button')) {
+      const quoteId = Number(e.target.closest('.pending-quote').dataset.id);
+      state.pendingQuotes = state.pendingQuotes.filter(q => q.id !== quoteId);
+      localStorage.setItem('pendingQuotes', JSON.stringify(state.pendingQuotes));
+      renderPendingQuotes();
+    }
+  });
+
+    // Add exit button for submit page
+    const exitSubmitButton = document.createElement('button');
+    exitSubmitButton.className = 'cool-button exit-submit-button hidden'; // Add 'hidden' class here
+    exitSubmitButton.textContent = 'Exit Submit';
+    document.querySelector('.quote-submit-container').appendChild(exitSubmitButton);
+    
+    exitSubmitButton.addEventListener('click', handleExitSubmit);
 }
+
+
+
+
 
 // this starts the app don't touch
 document.addEventListener('DOMContentLoaded', initializeApp);
+
