@@ -1,0 +1,35 @@
+[data-component="header"] {
+    width: 100%;
+    height: var(--header-height);
+    padding: var(--space-md);
+    background: var(--header-gradient);
+    box-shadow: var(--shadow);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.header__button-group {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+[data-action] {
+    padding: var(--space-sm) var(--space-md);
+    border: none;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: inherit;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+[data-action]:hover {
+    opacity: 0.8;
+}
