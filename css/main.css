@@ -1,339 +1,380 @@
-/* === CSS Variables === */
-:root {
-  --bg: #212121; /* Background color */
-  --text: #F3EFE0; /* Default text color */
-  --header-bg: linear-gradient(to bottom, #3d7369, #2a504a); /* Header gradient */
-  --card-bg: #333; /* Card background color */
-  --border: #444; /* Border color */
-  --gradient: linear-gradient(
-    60deg, 
-    #ff5770, #e4428d, #c42da8, #9e16c3, #6501de, 
-    #9e16c3, #c42da8, #e4428d, #ff5770
-  ); /* Gradient for buttons and effects */
-  --shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Default shadow */
-  --shadow-sm: 0 0 0 1px rgba(0, 0, 0, 0.01); /* Small shadow */
-  --mobile: 768px; /* Mobile breakpoint */
-}
-
-/* === Base Styles === */
-*, *::before, *::after {
-  box-sizing: border-box; /* Ensures padding and border are included in element dimensions */
-  margin: 0; /* Remove default margin */
-  padding: 0; /* Remove default padding */
-}
-
-html {
-  min-height: 100%; /* Ensures the HTML element covers the full viewport height */
-  scroll-behavior: smooth; /* Enables smooth scrolling */
-}
-
-body {
-  background: var(--bg); /* Set background color */
-  min-height: 100vh; /* Ensures the body covers the full viewport height */
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center content horizontally */
-  color: var(--text); /* Set default text color */
-  line-height: 1.5; /* Improve readability */
-}
-
-/* === Header === */
-header {
-  padding: 20px;
-  text-align: center;
-  background: var(--header-bg); /* Apply gradient background */
-  width: 100%;
-  height: 75px;
-  font-size: 1.5rem;
-  font-weight: bold;
-  box-shadow: var(--shadow); /* Add shadow */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
-  position: relative; /* For positioning child elements */
-}
-
-/* === Grid and Cards === */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Responsive grid */
-  gap: 32px 16px; /* Spacing between cards */
-  padding: 80px; /* Padding around the grid */
-  width: 100%;
-  max-width: 1200px; /* Max width for larger screens */
-  margin: 0 auto; /* Center the grid */
-}
-
-.card {
-  width: 100%;
-  padding: 20px;
-  border-radius: 8px;
-  background: var(--card-bg); /* Card background */
-  border: 1px solid var(--border); /* Card border */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px; /* Spacing between card elements */
-  position: relative;
-  box-shadow: var(--shadow-sm); /* Subtle shadow */
-}
-
-.card::after {
-  content: "";
-  position: absolute;
-  top: 15px;
-  left: 0;
-  right: 0;
-  z-index: -1; /* Place behind card content */
-  height: 100%;
-  width: 100%;
-  transform: scale(0.9); /* Slightly smaller than the card */
-  filter: blur(15px); /* Blur effect */
-  background: var(--gradient); /* Gradient background */
-  background-size: 200% 200%; /* For animation */
-  animation: animateGlow 1.25s linear infinite; /* Glow animation */
-}
-
-.card img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin: 0;
-  box-shadow: 1px 1px #000c; /* Subtle shadow */
-}
-
-.quote, .author {
-  color: inherit; /* Inherit text color */
-  font-size: 1rem;
-  text-align: center;
-  margin: 0;
-}
-
-.quote { text-wrap: balance; } /* Improve text wrapping */
-
-/* === Buttons === */
-.cool-button {
-  border: none;
-  padding: 1em;
-  outline: none;
-  color: inherit; /* Inherit text color */
-  text-transform: uppercase;
-  font-weight: 900;
-  font-size: 0.8em;
-  letter-spacing: 0.2em;
-  position: relative;
-  z-index: 1; /* Place above pseudo-elements */
-  cursor: pointer;
-  background: none;
-  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.45); /* Text shadow */
-  margin-top: auto; /* Push button to the bottom of the card */
-}
-
-.cool-button::before,
-.cool-button::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  border-radius: 10em;
-  transform: translate(-50%, -50%);
-  width: 105%;
-  height: 105%;
-  z-index: -2; /* Place behind button text */
-  background: var(--gradient); /* Gradient background */
-}
-
-.cool-button::before {
-  filter: blur(7px); /* Blur effect */
-  transition: all 0.25s ease; /* Smooth transition */
-  animation: animateGlow 10s infinite linear; /* Glow animation */
-}
-
-.cool-button:hover::before {
-  width: 115%; /* Expand on hover */
-  height: 115%;
-}
-
-/* === Welcome Screen === */
-.welcome-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 75px); /* Full height minus header */
-  padding: 20px;
-}
-
-.card-selector {
-  background: var(--card-bg); /* Card background */
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: var(--shadow); /* Shadow */
-  border: 1px solid var(--border); /* Border */
-  max-width: 500px;
-  width: 100%;
-  text-align: center;
-}
-
-.card-selector h2 {
-  margin-bottom: 1.5rem;
-  font-size: 1.8rem;
-}
-
-.input-group {
-  margin: 1.5rem 0;
-}
-
-.input-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: 1.1rem;
-}
-
-#cardCount {
-  background: #444;
-  border: 1px solid #555;
-  color: inherit;
-  padding: 0.8rem;
-  border-radius: 4px;
-  font-size: 1.2rem;
-  width: 100px;
-  text-align: center;
-  margin: 0 auto;
-}
-
-.start-button {
-  margin-top: 1rem;
-  width: 100%;
-}
-
-/* === Animations === */
-@keyframes animateGlow {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
-}
-
-@keyframes slideDown {
-  from { top: -50px; }
-  to { top: 20px; }
-}
-
-/* === Utilities === */
-.hidden { display: none !important; }
-
-/* === Media Queries === */
-@media (max-width: 768px) {
-  .grid {
-    grid-template-columns: 1fr; /* Single column on mobile */
-    padding: 20px; /* Reduce padding */
+/*Globals*/
+  :root {
+    /* Colors */
+    --bg: #212121;
+    --text: #F3EFE0;
+    --card-bg: #333;
+    --border: #444;
+    --danger: #f44336;
+  
+    /* Gradients */
+    --header-gradient: linear-gradient(to bottom, #3d7369, #2a504a);
+    --main-gradient: linear-gradient(
+      60deg, 
+      #ff5770, #e4428d, #c42da8, #9e16c3, #6501de, 
+      #9e16c3, #c42da8, #e4428d, #ff5770
+    );
+  
+    /* Spacing */
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 2rem;
+  
+    /* Shadows */
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --shadow-sm: 0 0 0 1px rgba(0, 0, 0, 0.01);
+  
+    /* Sizes */
+    --header-height: 75px;
+    --max-width: 1200px;
+    --mobile-breakpoint: 768px;
+  }
+  
+  /*Base Styles*/
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html {
+    min-height: 100%;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--text);
+    line-height: 1.5;
+    font-family: Arial, sans-serif;
+  }
+  
+  /*Header Component*/
+  [data-component="header"] {
+    width: 100%;
+    height: var(--header-height);
+    padding: var(--space-md);
+    background: var(--header-gradient);
+    box-shadow: var(--shadow);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .header__title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .header__button-group {
+    display: flex;
+    gap: var(--space-sm);
+  }
+  
+  [data-action] {
+    padding: var(--space-sm) var(--space-md);
+    border: none;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: inherit;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+  
+  [data-action]:hover {
+    opacity: 0.8;
+  }
+  
+  [data-visible="false"] {
+    display: none;
+  }
+  
+  /*Welcome Component*/
+  [data-component="welcome"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - var(--header-height));
+    padding: var(--space-lg);
+  }
+  
+  .welcome__card {
+    background: var(--card-bg);
+    padding: var(--space-lg);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .welcome__card h2 {
+    margin-bottom: var(--space-md);
+    font-size: 1.8rem;
+  }
+  
+  .welcome__input-group {
+    margin: var(--space-md) 0;
+  }
+  
+  .welcome__input-group label {
+    display: block;
+    margin-bottom: var(--space-sm);
+    font-size: 1.1rem;
+  }
+  
+  #cardCount {
+    background: #444;
+    border: 1px solid var(--border);
+    color: inherit;
+    padding: var(--space-sm);
+    border-radius: 4px;
+    font-size: 1.2rem;
+    width: 100px;
+    text-align: center;
+    margin: 0 auto;
+  }
+  
+  /*Card Grid Component*/
+  [data-component="card-grid"] {
+    padding: var(--space-lg);
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+  
+  .card-grid__container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+    justify-content: center;
+  }
+  
+  [data-component="card"] {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: var(--space-md);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    height: 100%;
   }
 
-  .card-selector {
-    padding: 1.5rem; /* Reduce padding */
+  [data-component="card"] .button {
+    margin-top: auto; 
   }
-}
 
-/*testing for submit */
-/* === Quote Submit Container === */
-.quote-submit-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 32px; /* Space between form and pending quotes */
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
+  [data-component="card"] .card__quote, .card__author{
+    text-align: center; 
+    font-size: 1rem;
+    line-height: 1.4;
+    margin: 0;
+    padding: 0 var(--space-sm); 
+  }
 
-/* === Quote Submission Form === */
-.quote-submit-form {
-  background: var(--card-bg);
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border);
-  width: 60%; /* Adjust width as needed */
-}
+  [data-component="card"]::after {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    transform: scale(0.9);
+    filter: blur(15px);
+    background: var(--main-gradient);
+    background-size: 200% 200%;
+    animation: animateGlow 1.25s linear infinite;
+  }
+  
+  [data-component="card"] img {
+    width: 100%;
+    border-radius: 8px;
+    margin: 0;
+    box-shadow: 1px 1px #000c;
+  }
+  
+  .card__quote {
+    text-wrap: balance;
+    font-size: 1rem;
+  }
+  
+  .card__author {
+    font-style: italic;
+  }
+  
+  /*Quote Submit Component*/
+  [data-component="quote-submit"] {
+    display: flex;
+    gap: var(--space-lg); 
+    padding: var(--space-lg);
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+  
+  [data-component="quote-form"] {
+    background: var(--card-bg);
+    padding: var(--space-lg);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    margin-bottom: var(--space-lg);
+    flex: 1;
+  }
+  
+  [data-component="quote-form"] h2 {
+    margin-bottom: var(--space-md);
+    font-size: 1.8rem;
+  }
+  
+  .input-group {
+    margin: var(--space-md) 0;
+  }
+  
+  .input-group label {
+    display: block;
+    margin-bottom: var(--space-sm);
+    font-size: 1.1rem;
+  }
+  
+  [data-input] {
+    width: 100%;
+    padding: var(--space-sm);
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: #444;
+    color: inherit;
+    font-size: 1rem;
+    margin-bottom: var(--space-md);
+  }
+  
+  [data-input="quote-text"] {
+    resize: vertical;
+    min-height: 120px;
+  }
+  
+  /*Pending Quotes Component */
+  [data-component="pending-quotes"] {
+    background: var(--card-bg);
+    padding: var(--space-lg);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    max-width: 400px;
+    word-wrap: break-word; 
+    overflow-wrap: break-word; 
+    white-space: normal; 
+    margin: 0;
+  }
+  
+  [data-component="pending-quotes"] h2 {
+    margin-bottom: var(--space-md);
+    font-size: 1.8rem;
+  }
+  
+  .pending-quote {
+    background: #444;
+    padding: var(--space-md);
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    margin-bottom: var(--space-md);
+  }
+  
+  .pending-quote .quote {
+    font-style: italic;
+    margin-bottom: var(--space-sm);
+  }
+  
+  .pending-quote .author {
+    font-weight: bold;
+    margin-bottom: var(--space-md);
+  }
+  
+  /* my Buttons*/
+  .button {
+    border: none;
+    padding: var(--space-sm) var(--space-md);
+    color: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .button--gradient {
+    position: relative;
+    z-index: 1;
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    background: none;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.45);
+  }
+  
+  .button--gradient::before,
+  .button--gradient::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10em;
+    width: 105%;
+    height: 105%;
+    z-index: -2;
+    background: var(--main-gradient);
+  }
+  
+  .button--gradient::before {
+    filter: blur(7px);
+    animation: animateGlow 10s infinite linear;
+  }
+  
+  .button--gradient:hover::before {
+    width: 115%;
+    height: 115%;
+  }
+  
+  .button--danger {
+    background: var(--danger);
+    color: white;
+  }
+  
+  [data-component="quote-form"] .button--gradient {
+    margin-left: 20px; 
+    display: block; 
+    width: fit-content; 
+  }
+  /* Animations */
+  @keyframes animateGlow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+  
+  /*Media Queries*/
+  @media (max-width: 768px) {
+    .card-grid__container {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+  
+    [data-component="welcome"] {
+      padding: var(--space-md);
+    }
+  
+    [data-component="quote-submit"] {
+      padding: var(--space-md);
+    }
+  }
 
-.quote-submit-form h2 {
-  margin-bottom: 1.5rem;
-  font-size: 1.8rem;
-}
-
-.quote-submit-form textarea,
-.quote-submit-form input {
-  width: 100%;
-  padding: 0.8rem;
-  border-radius: 4px;
-  border: 1px solid var(--border);
-  background: #444;
-  color: var(--text);
-  font-size: 1rem;
-  margin-bottom: 1rem;
-}
-
-.quote-submit-form textarea {
-  resize: vertical; /* Allow vertical resizing */
-  min-height: 120px;
-}
-
-.submit-button {
-  margin-top: 1rem;
-  width: 100%;
-}
-
-/* === Pending Quotes Section === */
-.pending-quotes {
-  background: var(--card-bg);
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border);
-  width: 35%; /* Adjust width as needed */
-}
-
-.pending-quotes h2 {
-  margin-bottom: 1.5rem;
-  font-size: 1.8rem;
-}
-
-.pending-quotes-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.pending-quote {
-  background: #444;
-  padding: 1rem;
-  border-radius: 4px;
-  border: 1px solid var(--border);
-}
-
-.pending-quote .quote {
-  font-style: italic;
-  margin-bottom: 0.5rem;
-}
-
-.pending-quote .author {
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.delete-button {
-  width: 100%;
-  background: #f44336; /* Red for delete button */
-  color: white;
-}
-
-.quote-submit {
-  position: absolute;
-  top: 15px;
-  right: 200px;
-  z-index: 1000;
-}
-
-
-
-.exit-submit-button {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  z-index: 1000;
+  [data-visible="false"] {
+    display: none !important;
 }
