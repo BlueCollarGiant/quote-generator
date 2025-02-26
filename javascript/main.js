@@ -75,12 +75,12 @@ const renderPendingQuotes = () => {
 
 const toggleView = (view) => {
   const views = ['welcome', 'card-grid', 'quote-submit'];
-  views.forEach(v => {
-    const element = document.querySelector(`[data-component="${v}"]`);
+  views.forEach(existingView => {
+    const element = document.querySelector(`[data-component="${existingView}"]`);
     if (element) {
-      element.setAttribute('data-visible', v === view);
+      element.setAttribute('data-visible', existingView === view);
     } else {
-      console.error(`Element with data-component="${v}" not found.`);
+      console.error(`Element with data-component="${existingView}" not found.`);
     }
   });
 
@@ -174,7 +174,7 @@ const handleSubmitQuote = (event) => {
 const handleDeleteQuote = (event) => {
   if (event.target.dataset.action === 'delete-quote') {
     const quoteId = Number(event.target.closest('[data-component="pending-quote"]').dataset.id);
-    state.pendingQuotes = state.pendingQuotes.filter(q => q.id !== quoteId);
+    state.pendingQuotes = state.pendingQuotes.filter(pendingQuote => pendingQuote.id !== quoteId);
     saveToLocalStorage('pendingQuotes', state.pendingQuotes);
     renderPendingQuotes();
   }
