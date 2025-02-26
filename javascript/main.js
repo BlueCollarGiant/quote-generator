@@ -1,32 +1,30 @@
 import { imagesData } from "../data/imagesData.js";
 import { responses } from "../data/responses.js";
 
-// set max amount of cards 
-const MAX_CARDS = 6; 
+// this is me setting up the max number of cards 
+const MAX_CARDS = 6;
 
-// set up the state
-let state = {
+//this is my state section for tracking
+const state = {
   activeImages: [],
   inactiveImages: [],
   activeQuotes: [],
   inactiveQuotes: [],
-  pendingQuotes: JSON.parse(localStorage.getItem('pendingQuotes')) || [], // load from local storage
-  previousView: 'welcome' // Track previous view for navigation
+  pendingQuotes: JSON.parse(localStorage.getItem('pendingQuotes')) || [],
+  currentView: 'welcome', // this tells me what page im on
 };
 
-
-function resetState() {
+//my functions
+const resetState = () => {
   state.activeImages = [];
   state.inactiveImages = imagesData.map(img => img.id);
   state.activeQuotes = [];
   state.inactiveQuotes = responses.map(quote => quote.id);
-
   console.log("State Reset - Inactive Images:", state.inactiveImages);
   console.log("State Reset - Active Images:", state.activeImages);
-}
+};
 
-// all of my Utility Functions 
-function getRandomItem(dataArray, inactivePool, activePool) {
+const getRandomItem = (dataArray, inactivePool, activePool) => {
   if (inactivePool.length === 0) {
     throw new Error("No inactive items available!");
   }
@@ -34,85 +32,110 @@ function getRandomItem(dataArray, inactivePool, activePool) {
   const selectedId = inactivePool.splice(randomIndex, 1)[0];
   activePool.push(selectedId);
   return dataArray.find(item => item.id === selectedId);
-}
+};
 
-function getRandomImage() {
-  return getRandomItem(imagesData, state.inactiveImages, state.activeImages);
-}
+const getRandomImage = () => getRandomItem(imagesData, state.inactiveImages, state.activeImages);
+const getRandomQuote = () => getRandomItem(responses, state.inactiveQuotes, state.activeQuotes);
 
-function getRandomQuote() {
-  return getRandomItem(responses, state.inactiveQuotes, state.activeQuotes);
-}
+const saveToLocalStorage = (key, data) => {
+  localStorage.setItem(key, JSON.stringify(data));
+};
 
-// push together my DOM Manipulation and Rendering stuff 
-function renderCards(numCards) {
+
+// this is my DOM stuff 
+const renderCards = (numCards) => {
   const cardsHTML = Array.from({ length: numCards }, () => {
     const randomQuote = getRandomQuote();
     const randomImage = getRandomImage();
     return `
-      <div class="card" data-quote-id="${randomQuote.id}">
+      <div data-component="card" data-quote-id="${randomQuote.id}">
         <img src="${randomImage.path}" data-image-id="${randomImage.id}" />
-        <p class="quote">${randomQuote.quote}</p>
-        <p class="author">— ${randomQuote.author}</p>
-        <button class="generate-new-quote cool-button">Get a New Quote</button>
+        <p class="card__quote">${randomQuote.quote}</p>
+        <p class="card__author">— ${randomQuote.author}</p>
+        <button class="button button--gradient" data-action="regenerate-quote">Get a New Quote</button>
       </div>
     `;
   }).join('');
 
-  document.querySelector('.js-quote-container').innerHTML = `
-    <div class="grid">${cardsHTML}</div>
-  `;
-
+  document.querySelector('[data-component="card-grid"] .card-grid__container').innerHTML = cardsHTML;
   console.log("Cards Rendered - Active Images:", state.activeImages);
   console.log("Cards Rendered - Inactive Images:", state.inactiveImages);
-}
+};
 
-
-function toggleUIElements(showWelcome, showQuoteSubmit = false) {
-  const showCards = !showWelcome && !showQuoteSubmit;
-  
-  document.querySelector('.welcome-container').classList.toggle('hidden', !showWelcome);
-  document.querySelector('.js-quote-container').classList.toggle('hidden', !showCards);
-  document.querySelector('.quote-submit-container').classList.toggle('hidden', !showQuoteSubmit);
-  document.querySelector('.back-button').classList.toggle('hidden', showWelcome);
-}
-function renderPendingQuotes() {
-  const container = document.querySelector('.pending-quotes-list');
+const renderPendingQuotes = () => {
+  const container = document.querySelector('[data-component="pending-quotes-list"]');
   container.innerHTML = state.pendingQuotes.map(quote => `
-    <div class="pending-quote" data-id="${quote.id}">
+    <div data-component="pending-quote" data-id="${quote.id}">
       <p class="quote">"${quote.quote}"</p>
       <p class="author">— ${quote.author}</p>
-      <button class="cool-button delete-button">Delete</button>
+      <button class="button button--danger" data-action="delete-quote">Delete</button>
     </div>
   `).join('');
-}
-// this section handles my Events
-function handleRegeneration(event) {
-  if (event.target.classList.contains('generate-new-quote')) {
-    const card = event.target.closest('.card');
-    const quoteElement = card.querySelector('.quote');
-    const authorElement = card.querySelector('.author');
+};
+
+const toggleView = (view) => {
+  const views = ['welcome', 'card-grid', 'quote-submit'];
+  views.forEach(v => {
+    const element = document.querySelector(`[data-component="${v}"]`);
+    if (element) {
+      element.setAttribute('data-visible', v === view);
+    } else {
+      console.error(`Element with data-component="${v}" not found.`);
+    }
+  });
+
+  // Toggle header buttons
+  const backButton = document.querySelector('[data-action="go-back"]');
+  const submitButton = document.querySelector('[data-action="open-submit"]');
+  const exitButton = document.querySelector('[data-action="close-submit"]');
+
+  if (backButton) backButton.setAttribute('data-visible', view !== 'welcome');
+  if (submitButton) submitButton.setAttribute('data-visible', view !== 'quote-submit');
+  if (exitButton) exitButton.setAttribute('data-visible', view === 'quote-submit');
+};
+
+// event handlers for my stuff
+const handleGenerateCards = () => {
+  resetState();
+  const numCards = parseInt(document.getElementById('cardCount').value);
+  const maxAllowed = Math.min(MAX_CARDS, imagesData.length, responses.length);
+
+  if (numCards > maxAllowed || numCards < 1) {
+    alert(`Please choose between 1 and ${maxAllowed} cards.`);
+    return;
+  }
+
+  state.currentView = 'card-grid';
+  toggleView('card-grid');
+  renderCards(numCards);
+};
+
+const handleRegenerateQuote = (event) => {
+  if (event.target.dataset.action === 'regenerate-quote') {
+    const card = event.target.closest('[data-component="card"]');
+    const quoteElement = card.querySelector('.card__quote');
+    const authorElement = card.querySelector('.card__author');
     const imageElement = card.querySelector('img');
 
     // Recycle old elements
     const oldImageId = parseInt(imageElement.dataset.imageId);
     const oldQuoteId = parseInt(card.dataset.quoteId);
 
-    // toss image back into pool
+    // Toss image back into pool
     const imageIndex = state.activeImages.indexOf(oldImageId);
     if (imageIndex > -1) {
       state.activeImages.splice(imageIndex, 1);
       state.inactiveImages.push(oldImageId);
     }
 
-    // toss quote back into pool
+    // Toss quote back into pool
     const quoteIndex = state.activeQuotes.indexOf(oldQuoteId);
     if (quoteIndex > -1) {
       state.activeQuotes.splice(quoteIndex, 1);
       state.inactiveQuotes.push(oldQuoteId);
     }
 
-    // Get new images and Quotes
+    // Get new image and quote
     const newImage = getRandomImage();
     const newQuote = getRandomQuote();
 
@@ -123,94 +146,67 @@ function handleRegeneration(event) {
     authorElement.textContent = `— ${newQuote.author}`;
     card.dataset.quoteId = newQuote.id;
 
-    console.log("Quote Regenerated - Active Images:", state.activeImages); // added console log to see whats active on images
-    console.log("Quote Regenerated - Inactive Images:", state.inactiveImages); // added console log to test to see whats not active
+    console.log("Quote Regenerated - Active Images:", state.activeImages);
+    console.log("Quote Regenerated - Inactive Images:", state.inactiveImages);
   }
-}
+};
 
-function handleGenerateCards() {
-  resetState();
-  const numCards = parseInt(document.getElementById('cardCount').value);
-  const maxAllowed = Math.min(MAX_CARDS, imagesData.length, responses.length);
+const handleSubmitQuote = (event) => {
+  event.preventDefault();
+  const quoteText = document.querySelector('[data-input="quote-text"]').value.trim();
+  const quoteAuthor = document.querySelector('[data-input="quote-author"]').value.trim();
 
-  if (numCards > maxAllowed || numCards < 1) {
-    alert(`Please choose between 1 and ${maxAllowed} cards.`);
+  if (!quoteText || !quoteAuthor) {
+    alert('Please fill in both fields.');
     return;
   }
-  state.previousView = 'cards';
-  toggleUIElements(false); //  hides the welcome page
-  renderCards(numCards);
-}
 
-function handleBackToStart() {
-  state.previousView = 'welcome';
-  toggleUIElements(true); // hides the cards page
-  resetState();
-}
+  state.pendingQuotes.push({
+    id: Date.now(),
+    quote: quoteText,
+    author: quoteAuthor,
+  });
+  saveToLocalStorage('pendingQuotes', state.pendingQuotes);
+  renderPendingQuotes();
+  event.target.reset();
+};
 
-function handleExitSubmit() {
-  if (state.previousView === 'welcome') {
-    toggleUIElements(true);
-  } else {
-    toggleUIElements(false);
+const handleDeleteQuote = (event) => {
+  if (event.target.dataset.action === 'delete-quote') {
+    const quoteId = Number(event.target.closest('[data-component="pending-quote"]').dataset.id);
+    state.pendingQuotes = state.pendingQuotes.filter(q => q.id !== quoteId);
+    saveToLocalStorage('pendingQuotes', state.pendingQuotes);
+    renderPendingQuotes();
   }
-}
+};
 
-// get the app ready
-function initializeApp() {
+const handleNavigation = (event) => {
+  const action = event.target.dataset.action;
+  if (action === 'open-submit') {
+    state.currentView = 'quote-submit';
+    toggleView('quote-submit');
+  } else if (action === 'close-submit' || action === 'go-back') {
+    // Handle "Back to Start" button
+    if (state.currentView === 'quote-submit') {
+      state.currentView = 'welcome'; // Go back to welcome from submit
+    } else if (state.currentView === 'card-grid') {
+      state.currentView = 'welcome'; // Go back to welcome from card grid
+    }
+    toggleView(state.currentView);
+  }
+};
+
+// start my app
+const initializeApp = () => {
   resetState();
   renderPendingQuotes();
 
-  // my event listeners
-  document.querySelector('.start-button').addEventListener('click', handleGenerateCards);
-  document.querySelector('.back-button').addEventListener('click', handleBackToStart);
-  document.querySelector('.js-quote-container').addEventListener('click', handleRegeneration);
-  document.querySelector('.quote-submit').addEventListener('click', () => {
-    state.previousView = document.querySelector('.welcome-container').classList.contains('hidden') ? 'cards' : 'welcome';
-    toggleUIElements(false, true);
-    renderPendingQuotes();
-    exitSubmitButton.classList.remove('hidden'); // Show the exit button when submit page is shown
-  });
+  // Event Listeners
+  document.querySelector('[data-action="generate-cards"]').addEventListener('click', handleGenerateCards);
+  document.querySelector('[data-component="card-grid"]').addEventListener('click', handleRegenerateQuote);
+  document.querySelector('[data-component="quote-form"]').addEventListener('submit', handleSubmitQuote);
+  document.querySelector('[data-component="pending-quotes-list"]').addEventListener('click', handleDeleteQuote);
+  document.querySelector('[data-component="header"]').addEventListener('click', handleNavigation);
+};
 
-  document.querySelector('.submit-button').addEventListener('click', () => {
-    const quoteText = document.getElementById('quoteText').value.trim();
-    const quoteAuthor = document.getElementById('quoteAuthor').value.trim();
-
-    if (quoteText && quoteAuthor) {
-      state.pendingQuotes.push({
-        id: Date.now(),
-        quote: quoteText,
-        author: quoteAuthor
-      });
-      localStorage.setItem('pendingQuotes', JSON.stringify(state.pendingQuotes));
-      renderPendingQuotes();
-      document.getElementById('quoteText').value = '';
-      document.getElementById('quoteAuthor').value = '';
-    }
-  });
-
-  document.querySelector('.pending-quotes-list').addEventListener('click', (e) => {
-    if (e.target.classList.contains('delete-button')) {
-      const quoteId = Number(e.target.closest('.pending-quote').dataset.id);
-      state.pendingQuotes = state.pendingQuotes.filter(q => q.id !== quoteId);
-      localStorage.setItem('pendingQuotes', JSON.stringify(state.pendingQuotes));
-      renderPendingQuotes();
-    }
-  });
-
-    // Add exit button for submit page
-    const exitSubmitButton = document.createElement('button');
-    exitSubmitButton.className = 'cool-button exit-submit-button hidden'; // Add 'hidden' class here
-    exitSubmitButton.textContent = 'Exit Submit';
-    document.querySelector('.quote-submit-container').appendChild(exitSubmitButton);
-    
-    exitSubmitButton.addEventListener('click', handleExitSubmit);
-}
-
-
-
-
-
-// this starts the app don't touch
 document.addEventListener('DOMContentLoaded', initializeApp);
-
