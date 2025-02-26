@@ -9,10 +9,11 @@
 </head>
 <body>
     <header>
-        <div class="header-container">Quote Generator</div>
-        <button class="cool-button back-button hidden">Back to Start</button>
-        <button class="quote-submit">quote submit</button>   
-
+        <div class="header-container">Quote Generator
+            <button class="back-button hidden">Back to Start</button>
+            <button class="quote-submit">Submit Quote</button>
+            <button class="exit-submit-button hidden">Exit Submit</button>
+        </div>
     </header>
     <main class="main-container">
         <div class="welcome-container">
@@ -25,6 +26,30 @@
                 <button class="cool-button start-button">Generate Cards</button>
             </div>
         </div>
+        <div class="quote-submit-container">
+            <div class="quote-submit-form">
+                <h2>Submit a Quote</h2>
+                <div class="input-group">
+                    <label for="quoteText">Quote</label>
+                    <textarea id="quoteText" placeholder="Enter your quote..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="quoteAuthor">Author</label>
+                    <input type="text" id="quoteAuthor" placeholder="Enter the author...">
+                </div>
+                <button class="cool-button submit-button">Submit Quote</button>
+                </div>
+                <div class="pending-quotes">
+                <h2>Pending Quotes</h2>
+                <div class="pending-quotes-list">
+                    <div class="pending-quote">
+                    <p class="quote">"This is a sample quote."</p>
+                    <p class="author">— Sample Author</p>
+                    <button class="cool-button delete-button">Delete</button>
+                    </div>
+                </div>
+                </div>
+            </div>
         <div class="js-quote-container hidden"></div>
     </main>
     <footer>
