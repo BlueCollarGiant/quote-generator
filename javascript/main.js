@@ -12,6 +12,7 @@ const state = {
   inactiveQuotes: [],
   pendingQuotes: JSON.parse(localStorage.getItem('pendingQuotes')) || [],
   currentView: 'welcome', // this tells me what page im on
+  previousView: null,     // Previous view (to track where we came from)
 };
 
 //my functions
@@ -183,16 +184,21 @@ const handleDeleteQuote = (event) => {
 const handleNavigation = (event) => {
   const action = event.target.dataset.action;
   if (action === 'open-submit') {
+    state.previousView = state.currentView;
     state.currentView = 'quote-submit';
     toggleView('quote-submit');
-  } else if (action === 'close-submit' || action === 'go-back') {
+  } else if (action === 'close-submit') {
     // Handle "Back to Start" button
     if (state.currentView === 'quote-submit') {
-      state.currentView = 'welcome'; // Go back to welcome from submit
+      state.currentView = state.previousView || 'welcome'; // Fallback to 'welcome' if no previous view
     } else if (state.currentView === 'card-grid') {
       state.currentView = 'welcome'; // Go back to welcome from card grid
     }
     toggleView(state.currentView);
+  } else if (action === 'go-back') {
+    // Handle "Back to Start" button
+    state.currentView = 'welcome'; // Always go back to welcome
+    toggleView('welcome');
   }
 };
 
