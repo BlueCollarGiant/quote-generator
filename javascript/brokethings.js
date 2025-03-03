@@ -2,7 +2,7 @@
 and need to test things again i will add to it as i build and test*/
 
 
-/*import { imagesData } from "../data/imagesData.js";
+import { imagesData } from "../data/imagesData.js";
 import { responses } from "../data/responses.js";
 
 // this is me setting up the max number of cards 
@@ -219,4 +219,4 @@ const initializeApp = () => {
   document.querySelector('[data-component="header"]').addEventListener('click', handleNavigation);
 };
 
-document.addEventListener('DOMContentLoaded', initializeApp);*/
+document.addEventListener('DOMContentLoaded', initializeApp);
