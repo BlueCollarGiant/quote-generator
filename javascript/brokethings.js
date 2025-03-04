@@ -14,7 +14,7 @@ const state = {
   inactiveImages: [],
   activeQuotes: [],
   inactiveQuotes: [],
-  pendingQuotes: JSON.parse(localStorage.getItem('pendingQuotes')) || [],
+  pendingQuotes: JSON.parse(localStorage.getItem('pendingQuotes')) || [],// parse local storage back to js-script if nothing there blank array
   currentView: 'welcome', // this tells me what page im on
   previousView: null,     // Previous view (to track where we came from)
 };
