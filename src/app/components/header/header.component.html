@@ -1,0 +1,11 @@
+<header data-component="header">
+  <div class="header__container">
+    <h1 class="header__title">Quote Generator</h1>
+    <div class="header__button-group">
+      <button class="header__button" (click)="goBack()" [attr.data-visible]="isWelcome() ? false : true">Back to Start</button>
+      <button class="header__button" (click)="openSubmit()" [attr.data-visible]="isQuoteSubmit() ? false : true">Submit Quote</button>
+      <button class="header__button" (click)="closeSubmit()" [attr.data-visible]="isQuoteSubmit() ? true : false">Exit Submit</button>
+    </div>
+  </div>
+</header>
+

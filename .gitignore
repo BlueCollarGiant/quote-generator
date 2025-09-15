@@ -1,0 +1,31 @@
+# Angular build output and caches
+dist/
+.angular/
+out-tsc/
+coverage/
+tmp/
+
+# Node dependencies
+node_modules/
+
+# Logs and diagnostics
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment files (if used)
+.env
+.env.*
+*.local
+
+# IDE/editor settings
+.idea/
+.DS_Store
+Thumbs.db
+
+# VS Code – keep shared settings if desired
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+

@@ -1,0 +1,16 @@
+<app-header></app-header>
+<main data-component="main">
+  <ng-container *ngIf="view() === 'welcome'">
+    <app-welcome (generateCards)="onGenerate($event)"></app-welcome>
+  </ng-container>
+  <ng-container *ngIf="view() === 'card-grid'">
+    <app-card-grid [count]="count"></app-card-grid>
+  </ng-container>
+  <ng-container *ngIf="view() === 'quote-submit'">
+    <app-quote-submit></app-quote-submit>
+  </ng-container>
+</main>
+<footer data-component="footer">
+  <p>&copy; 2025 Quote Generator</p>
+</footer>
+

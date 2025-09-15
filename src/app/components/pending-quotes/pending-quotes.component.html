@@ -1,0 +1,11 @@
+<div data-component="pending-quotes">
+  <h2>Pending Quotes</h2>
+  <div class="pending-quotes__list" data-component="pending-quotes-list">
+    <div *ngFor="let q of state.pendingQuotes" data-component="pending-quote" [attr.data-id]="q.id">
+      <p class="quote">"{{ q.quote }}"</p>
+      <p class="author">— {{ q.author }}</p>
+      <button class="button button--danger" (click)="delete(q.id)">Delete</button>
+    </div>
+  </div>
+</div>
+

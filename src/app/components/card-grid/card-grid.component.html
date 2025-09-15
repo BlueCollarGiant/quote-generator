@@ -1,0 +1,11 @@
+<div data-component="card-grid" [attr.data-visible]="true">
+  <div class="card-grid__container">
+    <div *ngFor="let c of cards" data-component="card" [attr.data-quote-id]="c.quoteId">
+      <img [src]="c.imagePath" [attr.data-image-id]="c.imageId" />
+      <p class="card__quote">{{ c.quote }}</p>
+      <p class="card__author">— {{ c.author }}</p>
+      <button class="button button--gradient" (click)="regenerate(c)">Get a New Quote</button>
+    </div>
+  </div>
+</div>
+
